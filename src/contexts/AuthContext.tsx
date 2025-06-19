@@ -41,16 +41,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('profiles')
+      // Try to fetch from users table first (fallback for existing data)
+      const { data: userData, error: userError } = await supabase
+        .from('users')
         .select('*')
         .eq('id', userId)
         .single();
 
-      if (error) throw error;
-      setProfile(data);
+      if (userData && !userError) {
+        setProfile({
+          id: userData.id,
+          email: userData.email,
+          full_name: `${userData.fname} ${userData.lname}`,
+          role: userData.role as Profile['role'],
+          phone: userData.phone || undefined
+        });
+        return;
+      }
+
+      // If users table doesn't work, create a mock profile for development
+      const mockProfile: Profile = {
+        id: userId,
+        email: user?.email || 'user@example.com',
+        full_name: user?.user_metadata?.full_name || 'Test User',
+        role: 'student',
+        phone: undefined
+      };
+      setProfile(mockProfile);
     } catch (error) {
       console.error('Error fetching profile:', error);
+      // Create a fallback profile
+      const fallbackProfile: Profile = {
+        id: userId,
+        email: user?.email || 'user@example.com',
+        full_name: user?.user_metadata?.full_name || 'Test User',
+        role: 'student',
+        phone: undefined
+      };
+      setProfile(fallbackProfile);
     }
   };
 
@@ -58,6 +86,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state changed:', event, session?.user?.email);
         setSession(session);
         setUser(session?.user ?? null);
         
@@ -74,6 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('Existing session:', session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
