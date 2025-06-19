@@ -4,12 +4,16 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
+
 import Index from "./pages/Index";
-import Login from "./pages/Auth/Login";
+import Auth from "./pages/Auth/Auth";
 import NotFound from "./pages/NotFound";
+import Unauthorized from "./pages/Unauthorized";
 
 // Dashboard pages
-import StudentDashboard from "./pages/Dashboard/StudentDashboard";
+import UpdatedStudentDashboard from "./pages/Dashboard/UpdatedStudentDashboard";
 import FamilyDashboard from "./pages/Dashboard/FamilyDashboard";
 import TeacherDashboard from "./pages/Dashboard/TeacherDashboard";
 import RegistrarDashboard from "./pages/Dashboard/RegistrarDashboard";
@@ -29,30 +33,75 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/academic-policy" element={<AcademicPolicy />} />
-          <Route path="/contact" element={<Contact />} />
-          
-          {/* Auth Routes */}
-          <Route path="/login" element={<Login />} />
-          
-          {/* Dashboard Routes */}
-          <Route path="/dashboard/student" element={<StudentDashboard />} />
-          <Route path="/dashboard/family" element={<FamilyDashboard />} />
-          <Route path="/dashboard/teacher" element={<TeacherDashboard />} />
-          <Route path="/dashboard/registrar" element={<RegistrarDashboard />} />
-          <Route path="/dashboard/admin" element={<AdminDashboard />} />
-          <Route path="/dashboard/director" element={<DirectorDashboard />} />
-          
-          {/* Catch-all route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/academic-policy" element={<AcademicPolicy />} />
+            <Route path="/contact" element={<Contact />} />
+            
+            {/* Auth Routes */}
+            <Route path="/login" element={<Auth />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            
+            {/* Protected Dashboard Routes */}
+            <Route 
+              path="/dashboard/student" 
+              element={
+                <ProtectedRoute allowedRoles={['student']}>
+                  <UpdatedStudentDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/family" 
+              element={
+                <ProtectedRoute allowedRoles={['family']}>
+                  <FamilyDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/teacher" 
+              element={
+                <ProtectedRoute allowedRoles={['teacher']}>
+                  <TeacherDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/registrar" 
+              element={
+                <ProtectedRoute allowedRoles={['registrar']}>
+                  <RegistrarDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/admin" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/director" 
+              element={
+                <ProtectedRoute allowedRoles={['director']}>
+                  <DirectorDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Catch-all route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
