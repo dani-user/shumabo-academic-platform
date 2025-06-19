@@ -6,10 +6,15 @@ import { useToast } from '@/components/ui/use-toast';
 
 interface Profile {
   id: string;
+  unique_id: string;
+  fname: string;
+  mname?: string;
+  lname: string;
   email: string;
-  full_name: string;
-  role: 'student' | 'family' | 'teacher' | 'registrar' | 'admin' | 'director';
   phone?: string;
+  role: 'student' | 'family' | 'teacher' | 'registrar' | 'admin' | 'director';
+  gender?: string;
+  disabled: boolean;
 }
 
 interface AuthContextType {
@@ -18,7 +23,7 @@ interface AuthContextType {
   profile: Profile | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signUp: (email: string, password: string, fullName: string, role: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, userData: any) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -41,44 +46,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = async (userId: string) => {
     try {
-      // Try to fetch from users table first (fallback for existing data)
-      const { data: userData, error: userError } = await supabase
+      const { data, error } = await supabase
         .from('users')
         .select('*')
         .eq('id', userId)
         .single();
 
-      if (userData && !userError) {
-        setProfile({
-          id: userData.id,
-          email: userData.email,
-          full_name: `${userData.fname} ${userData.lname}`,
-          role: userData.role as Profile['role'],
-          phone: userData.phone || undefined
-        });
+      if (error) {
+        console.error('Error fetching profile:', error);
         return;
       }
 
-      // If users table doesn't work, create a mock profile for development
-      const mockProfile: Profile = {
-        id: userId,
-        email: user?.email || 'user@example.com',
-        full_name: user?.user_metadata?.full_name || 'Test User',
-        role: 'student',
-        phone: undefined
-      };
-      setProfile(mockProfile);
+      if (data) {
+        setProfile({
+          id: data.id,
+          unique_id: data.unique_id,
+          fname: data.fname,
+          mname: data.mname,
+          lname: data.lname,
+          email: data.email,
+          phone: data.phone,
+          role: data.role,
+          gender: data.gender,
+          disabled: data.disabled
+        });
+      }
     } catch (error) {
       console.error('Error fetching profile:', error);
-      // Create a fallback profile
-      const fallbackProfile: Profile = {
-        id: userId,
-        email: user?.email || 'user@example.com',
-        full_name: user?.user_metadata?.full_name || 'Test User',
-        role: 'student',
-        phone: undefined
-      };
-      setProfile(fallbackProfile);
     }
   };
 
@@ -136,7 +130,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const signUp = async (email: string, password: string, fullName: string, role: string) => {
+  const signUp = async (email: string, password: string, userData: any) => {
     try {
       const { error } = await supabase.auth.signUp({
         email,
@@ -144,8 +138,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         options: {
           emailRedirectTo: `${window.location.origin}/`,
           data: {
-            full_name: fullName,
-            role: role,
+            fname: userData.fname,
+            lname: userData.lname,
+            role: userData.role,
+            unique_id: userData.unique_id
           },
         },
       });

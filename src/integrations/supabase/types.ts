@@ -80,7 +80,7 @@ export type Database = {
           created_at: string | null
           id: string
           sender_id: string | null
-          target: Json | null
+          target: string | null
           title: string
         }
         Insert: {
@@ -88,7 +88,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           sender_id?: string | null
-          target?: Json | null
+          target?: string | null
           title: string
         }
         Update: {
@@ -96,13 +96,64 @@ export type Database = {
           created_at?: string | null
           id?: string
           sender_id?: string | null
-          target?: Json | null
+          target?: string | null
           title?: string
         }
         Relationships: [
           {
             foreignKeyName: "announcements_sender_id_fkey"
             columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assessments: {
+        Row: {
+          attachments: string[] | null
+          course_code: string | null
+          created_at: string | null
+          description: string | null
+          due_date: string | null
+          id: string
+          teacher_id: string | null
+          title: string
+          type: string | null
+        }
+        Insert: {
+          attachments?: string[] | null
+          course_code?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          teacher_id?: string | null
+          title: string
+          type?: string | null
+        }
+        Update: {
+          attachments?: string[] | null
+          course_code?: string | null
+          created_at?: string | null
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          teacher_id?: string | null
+          title?: string
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessments_course_code_fkey"
+            columns: ["course_code"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["course_code"]
+          },
+          {
+            foreignKeyName: "assessments_teacher_id_fkey"
+            columns: ["teacher_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -261,6 +312,152 @@ export type Database = {
           },
         ]
       }
+      id_cards: {
+        Row: {
+          barcode: string | null
+          created_at: string | null
+          id: string
+          issue_date: string | null
+          photo: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          unique_id: string
+          user_id: string | null
+        }
+        Insert: {
+          barcode?: string | null
+          created_at?: string | null
+          id?: string
+          issue_date?: string | null
+          photo?: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          unique_id: string
+          user_id?: string | null
+        }
+        Update: {
+          barcode?: string | null
+          created_at?: string | null
+          id?: string
+          issue_date?: string | null
+          photo?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          unique_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "id_cards_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesson_plans: {
+        Row: {
+          created_at: string | null
+          grade: number | null
+          id: string
+          plan: Json | null
+          section: string | null
+          teacher_id: string | null
+          week_start: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          grade?: number | null
+          id?: string
+          plan?: Json | null
+          section?: string | null
+          teacher_id?: string | null
+          week_start?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          grade?: number | null
+          id?: string
+          plan?: Json | null
+          section?: string | null
+          teacher_id?: string | null
+          week_start?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_plans_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pending_grades: {
+        Row: {
+          assignment: number | null
+          course_code: string | null
+          created_at: string | null
+          final_exam: number | null
+          id: string
+          midterm: number | null
+          quiz: number | null
+          semester: number | null
+          status: string | null
+          student_id: string | null
+          teacher_id: string | null
+          total_mark: number | null
+        }
+        Insert: {
+          assignment?: number | null
+          course_code?: string | null
+          created_at?: string | null
+          final_exam?: number | null
+          id?: string
+          midterm?: number | null
+          quiz?: number | null
+          semester?: number | null
+          status?: string | null
+          student_id?: string | null
+          teacher_id?: string | null
+          total_mark?: number | null
+        }
+        Update: {
+          assignment?: number | null
+          course_code?: string | null
+          created_at?: string | null
+          final_exam?: number | null
+          id?: string
+          midterm?: number | null
+          quiz?: number | null
+          semester?: number | null
+          status?: string | null
+          student_id?: string | null
+          teacher_id?: string | null
+          total_mark?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pending_grades_course_code_fkey"
+            columns: ["course_code"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["course_code"]
+          },
+          {
+            foreignKeyName: "pending_grades_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pending_grades_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pending_registrations: {
         Row: {
           created_at: string | null
@@ -358,43 +555,102 @@ export type Database = {
       }
       students: {
         Row: {
-          biography: Json | null
+          birth_date_ec: string | null
+          birth_woreda: string | null
+          contact: Json | null
           created_at: string | null
           current_grade: number | null
           current_section: string | null
+          enrollment_date_ec: string | null
+          ethnic: string | null
           family_id: string | null
+          father_occupation: string | null
+          fname_am: string | null
+          high_school_stream: string | null
           id: string
+          last_modified_by: string | null
+          last_modified_date: string | null
+          lname_am: string | null
+          marital_status: string | null
+          mname_am: string | null
+          mother_fname: string | null
+          mother_lname: string | null
+          mother_occupation: string | null
+          nationality: string | null
+          photo: string | null
+          recorded_by: string | null
+          recorded_date: string | null
+          religion: string | null
+          special_birth_place: string | null
           stream: string | null
+          student_id: string | null
           user_id: string | null
         }
         Insert: {
-          biography?: Json | null
+          birth_date_ec?: string | null
+          birth_woreda?: string | null
+          contact?: Json | null
           created_at?: string | null
           current_grade?: number | null
           current_section?: string | null
+          enrollment_date_ec?: string | null
+          ethnic?: string | null
           family_id?: string | null
+          father_occupation?: string | null
+          fname_am?: string | null
+          high_school_stream?: string | null
           id?: string
+          last_modified_by?: string | null
+          last_modified_date?: string | null
+          lname_am?: string | null
+          marital_status?: string | null
+          mname_am?: string | null
+          mother_fname?: string | null
+          mother_lname?: string | null
+          mother_occupation?: string | null
+          nationality?: string | null
+          photo?: string | null
+          recorded_by?: string | null
+          recorded_date?: string | null
+          religion?: string | null
+          special_birth_place?: string | null
           stream?: string | null
+          student_id?: string | null
           user_id?: string | null
         }
         Update: {
-          biography?: Json | null
+          birth_date_ec?: string | null
+          birth_woreda?: string | null
+          contact?: Json | null
           created_at?: string | null
           current_grade?: number | null
           current_section?: string | null
+          enrollment_date_ec?: string | null
+          ethnic?: string | null
           family_id?: string | null
+          father_occupation?: string | null
+          fname_am?: string | null
+          high_school_stream?: string | null
           id?: string
+          last_modified_by?: string | null
+          last_modified_date?: string | null
+          lname_am?: string | null
+          marital_status?: string | null
+          mname_am?: string | null
+          mother_fname?: string | null
+          mother_lname?: string | null
+          mother_occupation?: string | null
+          nationality?: string | null
+          photo?: string | null
+          recorded_by?: string | null
+          recorded_date?: string | null
+          religion?: string | null
+          special_birth_place?: string | null
           stream?: string | null
+          student_id?: string | null
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "students_family_id_fkey"
-            columns: ["family_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "students_user_id_fkey"
             columns: ["user_id"]
@@ -457,7 +713,7 @@ export type Database = {
           lname: string
           mname: string | null
           phone: string | null
-          role: string
+          role: Database["public"]["Enums"]["user_role"]
           unique_id: string
         }
         Insert: {
@@ -466,11 +722,11 @@ export type Database = {
           email: string
           fname: string
           gender?: string | null
-          id?: string
+          id: string
           lname: string
           mname?: string | null
           phone?: string | null
-          role: string
+          role: Database["public"]["Enums"]["user_role"]
           unique_id: string
         }
         Update: {
@@ -483,7 +739,7 @@ export type Database = {
           lname?: string
           mname?: string | null
           phone?: string | null
-          role?: string
+          role?: Database["public"]["Enums"]["user_role"]
           unique_id?: string
         }
         Relationships: []
@@ -496,7 +752,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role:
+        | "student"
+        | "family"
+        | "teacher"
+        | "registrar"
+        | "admin"
+        | "director"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -611,6 +873,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: [
+        "student",
+        "family",
+        "teacher",
+        "registrar",
+        "admin",
+        "director",
+      ],
+    },
   },
 } as const
