@@ -12,7 +12,7 @@ const DashboardHeader = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
-            Welcome, {profile?.full_name}
+            Welcome, {profile?.fname} {profile?.lname}
           </h1>
           <p className="text-sm text-gray-600 capitalize">
             {profile?.role} Dashboard
