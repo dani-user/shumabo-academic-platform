@@ -1,18 +1,51 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { GraduationCap, Eye, EyeOff } from 'lucide-react';
+import { GraduationCap, Eye, EyeOff, Loader2 } from 'lucide-react';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     uniqueId: '',
     password: ''
   });
+  
+  const { signIn, user, profile } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user && profile) {
+      // Redirect to appropriate dashboard based on role
+      switch (profile.role) {
+        case 'student':
+          navigate('/dashboard/student');
+          break;
+        case 'family':
+          navigate('/dashboard/family');
+          break;
+        case 'teacher':
+          navigate('/dashboard/teacher');
+          break;
+        case 'registrar':
+          navigate('/dashboard/registrar');
+          break;
+        case 'admin':
+          navigate('/dashboard/admin');
+          break;
+        case 'director':
+          navigate('/dashboard/director');
+          break;
+        default:
+          navigate('/');
+      }
+    }
+  }, [user, profile, navigate]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -21,10 +54,19 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement login logic
-    console.log('Login attempt:', formData);
+    setLoading(true);
+    
+    console.log('Submitting login form with:', formData);
+    
+    const { error } = await signIn(formData.uniqueId, formData.password);
+    
+    if (!error) {
+      console.log('Login successful, should redirect...');
+    }
+    
+    setLoading(false);
   };
 
   return (
@@ -62,7 +104,7 @@ const Login = () => {
                   id="uniqueId"
                   name="uniqueId"
                   type="text"
-                  placeholder="e.g., LSSS1701000"
+                  placeholder="e.g., LSSS1701001"
                   value={formData.uniqueId}
                   onChange={handleInputChange}
                   className="h-12"
@@ -98,40 +140,48 @@ const Login = () => {
 
               <Button 
                 type="submit" 
+                disabled={loading}
                 className="w-full h-12 bg-[#0056b3] hover:bg-[#004494] text-white font-semibold"
               >
-                Login to Portal
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  'Login to Portal'
+                )}
               </Button>
             </form>
 
-            {/* Role Examples */}
+            {/* Test Credentials */}
             <div className="border-t pt-4">
-              <p className="text-sm text-gray-600 mb-3">Example login formats:</p>
+              <p className="text-sm text-gray-600 mb-3">Test credentials (password: password123):</p>
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between">
+                  <span className="text-gray-500">Admin:</span>
+                  <span className="font-mono">LSSA1701001</span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-gray-500">Student:</span>
-                  <span className="font-mono">LSSS1701000</span>
+                  <span className="font-mono">LSSS1701001</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Teacher:</span>
-                  <span className="font-mono">LSST1701000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-500">Admin:</span>
-                  <span className="font-mono">LSSA1701000</span>
+                  <span className="font-mono">LSST1701001</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500">Family:</span>
-                  <span className="font-mono">LSSF1701000</span>
+                  <span className="font-mono">LSSF1701001</span>
                 </div>
               </div>
             </div>
 
             {/* Footer Links */}
             <div className="text-center space-y-2">
-              <a href="#" className="text-sm text-[#0056b3] hover:underline">
-                Forgot your password?
-              </a>
+              <Link to="/auth" className="text-sm text-[#0056b3] hover:underline">
+                Create new account
+              </Link>
               <div className="text-sm text-gray-500">
                 Need help? Contact the registrar's office
               </div>

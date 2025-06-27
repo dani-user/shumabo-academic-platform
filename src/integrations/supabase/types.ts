@@ -712,6 +712,7 @@ export type Database = {
           id: string
           lname: string
           mname: string | null
+          password: string | null
           phone: string | null
           role: Database["public"]["Enums"]["user_role"]
           unique_id: string
@@ -725,6 +726,7 @@ export type Database = {
           id: string
           lname: string
           mname?: string | null
+          password?: string | null
           phone?: string | null
           role: Database["public"]["Enums"]["user_role"]
           unique_id: string
@@ -738,6 +740,7 @@ export type Database = {
           id?: string
           lname?: string
           mname?: string | null
+          password?: string | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           unique_id?: string
@@ -749,7 +752,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      authenticate_user: {
+        Args: { user_unique_id: string; user_password: string }
+        Returns: {
+          id: string
+          unique_id: string
+          fname: string
+          mname: string
+          lname: string
+          email: string
+          phone: string
+          role: string
+          gender: string
+          disabled: boolean
+        }[]
+      }
     }
     Enums: {
       user_role:

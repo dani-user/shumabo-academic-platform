@@ -11,6 +11,7 @@ import { Loader2, User, Mail, Lock, Phone } from 'lucide-react';
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
     fname: '',
+    mname: '',
     lname: '',
     email: '',
     phone: '',
@@ -22,12 +23,6 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
 
-  const generateUniqueId = (role: string) => {
-    const prefix = role === 'student' ? 'LSSS' : role === 'family' ? 'LSSF' : 'LSST';
-    const timestamp = Date.now().toString().slice(-7);
-    return `${prefix}${timestamp}`;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -37,12 +32,23 @@ const SignUpForm = () => {
 
     setLoading(true);
 
-    const userData = {
-      ...formData,
-      unique_id: generateUniqueId(formData.role)
-    };
-
-    await signUp(formData.email, formData.password, userData);
+    const { error } = await signUp(formData.email, formData.password, formData);
+    
+    if (!error) {
+      // Reset form on success
+      setFormData({
+        fname: '',
+        mname: '',
+        lname: '',
+        email: '',
+        phone: '',
+        password: '',
+        confirmPassword: '',
+        role: 'student',
+        gender: 'male'
+      });
+    }
+    
     setLoading(false);
   };
 
@@ -56,6 +62,9 @@ const SignUpForm = () => {
         <CardTitle className="text-2xl font-bold text-blue-900">
           Create Account
         </CardTitle>
+        <p className="text-gray-600">
+          Register for school portal access
+        </p>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -85,6 +94,16 @@ const SignUpForm = () => {
                 required
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="mname">Middle Name</Label>
+            <Input
+              id="mname"
+              placeholder="Middle name (optional)"
+              value={formData.mname}
+              onChange={(e) => handleInputChange('mname', e.target.value)}
+            />
           </div>
 
           <div className="space-y-2">
@@ -178,7 +197,11 @@ const SignUpForm = () => {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          {formData.password !== formData.confirmPassword && formData.confirmPassword && (
+            <p className="text-sm text-red-500">Passwords do not match</p>
+          )}
+
+          <Button type="submit" className="w-full" disabled={loading || formData.password !== formData.confirmPassword}>
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

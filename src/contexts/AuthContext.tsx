@@ -1,6 +1,5 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -18,11 +17,11 @@ interface Profile {
 }
 
 interface AuthContextType {
-  user: User | null;
-  session: Session | null;
+  user: Profile | null;
+  session: any;
   profile: Profile | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signIn: (uniqueId: string, password: string) => Promise<{ error: any }>;
   signUp: (email: string, password: string, userData: any) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
@@ -38,113 +37,113 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<Profile | null>(null);
+  const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchProfile = async (userId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (error) {
-        console.error('Error fetching profile:', error);
-        return;
-      }
-
-      if (data) {
-        setProfile({
-          id: data.id,
-          unique_id: data.unique_id,
-          fname: data.fname,
-          mname: data.mname,
-          lname: data.lname,
-          email: data.email,
-          phone: data.phone,
-          role: data.role,
-          gender: data.gender,
-          disabled: data.disabled
-        });
-      }
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-    }
-  };
-
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email);
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          setTimeout(() => {
-            fetchProfile(session.user.id);
-          }, 0);
-        } else {
-          setProfile(null);
-        }
-        setLoading(false);
+    // Check for existing session in localStorage
+    const savedUser = localStorage.getItem('school_user');
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        setUser(userData);
+        setProfile(userData);
+        setSession({ user: userData });
+      } catch (error) {
+        localStorage.removeItem('school_user');
       }
-    );
-
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Existing session:', session?.user?.email);
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
-      }
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    }
+    setLoading(false);
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (uniqueId: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      console.log('Attempting login with unique ID:', uniqueId);
       
+      const { data, error } = await supabase.rpc('authenticate_user', {
+        user_unique_id: uniqueId,
+        user_password: password
+      });
+
+      console.log('Authentication response:', { data, error });
+
       if (error) {
+        console.error('Authentication error:', error);
         toast({
           title: "Login Failed",
-          description: error.message,
+          description: error.message || "Invalid credentials",
           variant: "destructive",
         });
+        return { error };
       }
+
+      if (!data || data.length === 0) {
+        const errorMsg = "Invalid unique ID or password";
+        toast({
+          title: "Login Failed",
+          description: errorMsg,
+          variant: "destructive",
+        });
+        return { error: { message: errorMsg } };
+      }
+
+      const userData = data[0];
+      console.log('User data:', userData);
       
-      return { error };
+      setUser(userData);
+      setProfile(userData);
+      setSession({ user: userData });
+      
+      // Save to localStorage for persistence
+      localStorage.setItem('school_user', JSON.stringify(userData));
+      
+      toast({
+        title: "Login Successful",
+        description: `Welcome back, ${userData.fname}!`,
+      });
+      
+      return { error: null };
     } catch (error) {
+      console.error('Login error:', error);
+      toast({
+        title: "Login Failed",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
       return { error };
     }
   };
 
   const signUp = async (email: string, password: string, userData: any) => {
     try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/`,
-          data: {
+      // Generate unique ID based on role
+      const rolePrefix = userData.role === 'student' ? 'LSSS' : 
+                        userData.role === 'family' ? 'LSSF' : 
+                        userData.role === 'teacher' ? 'LSST' : 
+                        userData.role === 'admin' ? 'LSSA' : 'LSSG';
+      
+      const timestamp = Date.now().toString().slice(-7);
+      const uniqueId = `${rolePrefix}${timestamp}`;
+
+      const { error } = await supabase
+        .from('users')
+        .insert([
+          {
+            unique_id: uniqueId,
             fname: userData.fname,
+            mname: userData.mname,
             lname: userData.lname,
+            email: email,
+            phone: userData.phone,
             role: userData.role,
-            unique_id: userData.unique_id
-          },
-        },
-      });
+            gender: userData.gender,
+            password: password, // This will be hashed by a database trigger
+            disabled: false
+          }
+        ]);
 
       if (error) {
         toast({
@@ -152,28 +151,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           description: error.message,
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Success!",
-          description: "Please check your email to verify your account.",
-        });
+        return { error };
       }
 
-      return { error };
+      toast({
+        title: "Account Created!",
+        description: `Your unique ID is: ${uniqueId}. Please use this to login.`,
+      });
+
+      return { error: null };
     } catch (error) {
+      console.error('Sign up error:', error);
       return { error };
     }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
+    setUser(null);
+    setProfile(null);
+    setSession(null);
+    localStorage.removeItem('school_user');
+    
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out.",
+    });
   };
 
   const value = {
