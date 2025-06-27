@@ -172,15 +172,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signOut = async () => {
-    setUser(null);
-    setProfile(null);
-    setSession(null);
-    localStorage.removeItem('school_user');
-    
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-    });
+    try {
+      // Clear all state
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      
+      // Clear localStorage
+      localStorage.removeItem('school_user');
+      
+      // Show success message
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out.",
+      });
+
+      // Force redirect to login page
+      window.location.href = '/login';
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if there's an error, clear the state and redirect
+      setUser(null);
+      setProfile(null);
+      setSession(null);
+      localStorage.removeItem('school_user');
+      window.location.href = '/login';
+    }
   };
 
   const value = {
