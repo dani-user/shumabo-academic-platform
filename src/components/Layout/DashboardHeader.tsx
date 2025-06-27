@@ -7,6 +7,11 @@ import { LogOut, User } from 'lucide-react';
 const DashboardHeader = () => {
   const { profile, signOut } = useAuth();
 
+  const handleLogout = async () => {
+    console.log('Logout button clicked');
+    await signOut();
+  };
+
   return (
     <header className="bg-white shadow-sm border-b border-gray-200 p-4">
       <div className="flex items-center justify-between">
@@ -24,7 +29,7 @@ const DashboardHeader = () => {
             <User className="h-4 w-4" />
             <span>{profile?.email}</span>
           </div>
-          <Button onClick={signOut} variant="outline" size="sm">
+          <Button onClick={handleLogout} variant="outline" size="sm">
             <LogOut className="h-4 w-4 mr-2" />
             Logout
           </Button>
