@@ -93,12 +93,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const userData = data[0];
       console.log('User data:', userData);
       
-      setUser(userData);
-      setProfile(userData);
-      setSession({ user: userData });
+      // Cast the role to the correct type
+      const profileData: Profile = {
+        ...userData,
+        role: userData.role as 'student' | 'family' | 'teacher' | 'registrar' | 'admin' | 'director'
+      };
+      
+      setUser(profileData);
+      setProfile(profileData);
+      setSession({ user: profileData });
       
       // Save to localStorage for persistence
-      localStorage.setItem('school_user', JSON.stringify(userData));
+      localStorage.setItem('school_user', JSON.stringify(profileData));
       
       toast({
         title: "Login Successful",
@@ -130,20 +136,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       const { error } = await supabase
         .from('users')
-        .insert([
-          {
-            unique_id: uniqueId,
-            fname: userData.fname,
-            mname: userData.mname,
-            lname: userData.lname,
-            email: email,
-            phone: userData.phone,
-            role: userData.role,
-            gender: userData.gender,
-            password: password, // This will be hashed by a database trigger
-            disabled: false
-          }
-        ]);
+        .insert({
+          id: crypto.randomUUID(), // Generate UUID for id field
+          unique_id: uniqueId,
+          fname: userData.fname,
+          mname: userData.mname,
+          lname: userData.lname,
+          email: email,
+          phone: userData.phone,
+          role: userData.role,
+          gender: userData.gender,
+          password: password, // This will be hashed by a database trigger
+          disabled: false
+        });
 
       if (error) {
         toast({
