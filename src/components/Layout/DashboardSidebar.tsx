@@ -16,7 +16,12 @@ import {
   BarChart3,
   UserCheck,
   Bell,
-  CreditCard
+  CreditCard,
+  UserPlus,
+  IdCard,
+  CheckCircle,
+  TrendingUp,
+  Award
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -59,32 +64,31 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
         return [
           ...baseItems,
           { icon: Users, label: 'My Classes', path: '/staff-site/classes' },
-          { icon: BookOpen, label: 'Grade Management', path: '/staff-site/grades' },
-          { icon: Calendar, label: 'Timetable', path: '/staff-site/timetable' },
-          { icon: UserCheck, label: 'Attendance', path: '/staff-site/attendance' },
-          { icon: ClipboardList, label: 'Assessments', path: '/staff-site/assessments' },
+          { icon: BookOpen, label: 'Add Grades', path: '/staff-site/add-grades' },
+          { icon: UserCheck, label: 'Take Attendance', path: '/staff-site/take-attendance' },
+          { icon: ClipboardList, label: 'Lesson Plans', path: '/staff-site/lesson-plans' },
+          { icon: Users, label: 'View Students', path: '/staff-site/view-students' },
           { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
           { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
         ];
       case 'registrar':
         return [
           ...baseItems,
-          { icon: Users, label: 'Student Management', path: '/staff-site/students' },
-          { icon: ClipboardList, label: 'Registrations', path: '/staff-site/registrations' },
-          { icon: BookOpen, label: 'Grade Approval', path: '/staff-site/grades' },
-          { icon: UserCheck, label: 'Attendance', path: '/staff-site/attendance' },
+          { icon: UserPlus, label: 'Register Student', path: '/staff-site/register-student' },
+          { icon: IdCard, label: 'Print ID Cards', path: '/staff-site/print-id-cards' },
+          { icon: UserCheck, label: 'Manage Attendance', path: '/staff-site/manage-attendance' },
+          { icon: CreditCard, label: 'Fee Collection', path: '/staff-site/fee-collection' },
           { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
-          { icon: BarChart3, label: 'Reports', path: '/staff-site/reports' },
-          { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
+          { icon: FileText, label: 'Reports', path: '/staff-site/reports' },
+          { icon: Settings, label: 'Profile', path: '/staff-site/profile' },
         ];
       case 'admin':
         return [
           ...baseItems,
-          { icon: Users, label: 'User Management', path: '/staff-site/users' },
-          { icon: GraduationCap, label: 'Academic Calendar', path: '/staff-site/calendar' },
-          { icon: BookOpen, label: 'Course Management', path: '/staff-site/courses' },
-          { icon: ClipboardList, label: 'Assignments', path: '/staff-site/assignments' },
-          { icon: BarChart3, label: 'Reports', path: '/staff-site/reports' },
+          { icon: CheckCircle, label: 'Approve Registrations', path: '/staff-site/approve-registrations' },
+          { icon: Users, label: 'Manage Users', path: '/staff-site/manage-users' },
+          { icon: BookOpen, label: 'Course Management', path: '/staff-site/course-management' },
+          { icon: BarChart3, label: 'Generate Reports', path: '/staff-site/generate-reports' },
           { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
           { icon: Settings, label: 'Settings', path: '/staff-site/settings' },
           { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
@@ -92,10 +96,10 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
       case 'director':
         return [
           ...baseItems,
-          { icon: BarChart3, label: 'Analytics', path: '/staff-site/analytics' },
-          { icon: Users, label: 'Staff Overview', path: '/staff-site/staff' },
-          { icon: GraduationCap, label: 'Academic Performance', path: '/staff-site/performance' },
-          { icon: FileText, label: 'Reports', path: '/staff-site/reports' },
+          { icon: FileText, label: 'View Reports', path: '/staff-site/view-reports' },
+          { icon: TrendingUp, label: 'Performance Analytics', path: '/staff-site/performance-analytics' },
+          { icon: Calendar, label: 'Strategic Planning', path: '/staff-site/strategic-planning' },
+          { icon: Users, label: 'Faculty Management', path: '/staff-site/faculty-management' },
           { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
           { icon: Settings, label: 'System Settings', path: '/staff-site/settings' },
           { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },

@@ -9,11 +9,32 @@ import RegistrarDashboard from '@/pages/Dashboard/RegistrarDashboard';
 import AdminDashboard from '@/pages/Dashboard/AdminDashboard';
 import DirectorDashboard from '@/pages/Dashboard/DirectorDashboard';
 
-// Staff feature pages
-import StaffGradesPage from '@/pages/Dashboard/Staff/StaffGradesPage';
-import StaffTimetablePage from '@/pages/Dashboard/Staff/StaffTimetablePage';
+// Admin pages
+import ApproveRegistrationsPage from '@/pages/Dashboard/Staff/ApproveRegistrationsPage';
+import ManageUsersPage from '@/pages/Dashboard/Staff/ManageUsersPage';
+import CourseManagementPage from '@/pages/Dashboard/Staff/CourseManagementPage';
+import GenerateReportsPage from '@/pages/Dashboard/Staff/GenerateReportsPage';
+
+// Teacher pages  
+import AddGradesPage from '@/pages/Dashboard/Staff/AddGradesPage';
+import TakeAttendancePage from '@/pages/Dashboard/Staff/TakeAttendancePage';
+import LessonPlansPage from '@/pages/Dashboard/Staff/LessonPlansPage';
+import ViewStudentsPage from '@/pages/Dashboard/Staff/ViewStudentsPage';
+
+// Registrar pages
+import RegisterStudentPage from '@/pages/Dashboard/Staff/RegisterStudentPage';
+import PrintIdCardsPage from '@/pages/Dashboard/Staff/PrintIdCardsPage';
+import ManageAttendancePage from '@/pages/Dashboard/Staff/ManageAttendancePage';
+import FeeCollectionPage from '@/pages/Dashboard/Staff/FeeCollectionPage';
+
+// Director pages
+import ViewReportsPage from '@/pages/Dashboard/Staff/ViewReportsPage';
+import PerformanceAnalyticsPage from '@/pages/Dashboard/Staff/PerformanceAnalyticsPage';
+import StrategicPlanningPage from '@/pages/Dashboard/Staff/StrategicPlanningPage';
+import FacultyManagementPage from '@/pages/Dashboard/Staff/FacultyManagementPage';
+
+// Shared staff feature pages
 import StaffAnnouncementsPage from '@/pages/Dashboard/Staff/StaffAnnouncementsPage';
-import StaffAttendancePage from '@/pages/Dashboard/Staff/StaffAttendancePage';
 import StaffProfilePage from '@/pages/Dashboard/Staff/StaffProfilePage';
 
 const StaffSiteApp = () => {
@@ -41,11 +62,32 @@ const StaffSiteApp = () => {
       <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/director" element={<DirectorDashboard />} />
 
+      {/* Admin specific pages */}
+      <Route path="/approve-registrations" element={<ApproveRegistrationsPage />} />
+      <Route path="/manage-users" element={<ManageUsersPage />} />
+      <Route path="/course-management" element={<CourseManagementPage />} />
+      <Route path="/generate-reports" element={<GenerateReportsPage />} />
+
+      {/* Teacher specific pages */}
+      <Route path="/add-grades" element={<AddGradesPage />} />
+      <Route path="/take-attendance" element={<TakeAttendancePage />} />
+      <Route path="/lesson-plans" element={<LessonPlansPage />} />
+      <Route path="/view-students" element={<ViewStudentsPage />} />
+
+      {/* Registrar specific pages */}
+      <Route path="/register-student" element={<RegisterStudentPage />} />
+      <Route path="/print-id-cards" element={<PrintIdCardsPage />} />
+      <Route path="/manage-attendance" element={<ManageAttendancePage />} />
+      <Route path="/fee-collection" element={<FeeCollectionPage />} />
+
+      {/* Director specific pages */}
+      <Route path="/view-reports" element={<ViewReportsPage />} />
+      <Route path="/performance-analytics" element={<PerformanceAnalyticsPage />} />
+      <Route path="/strategic-planning" element={<StrategicPlanningPage />} />
+      <Route path="/faculty-management" element={<FacultyManagementPage />} />
+
       {/* Shared staff feature pages */}
-      <Route path="/grades" element={<StaffGradesPage />} />
-      <Route path="/timetable" element={<StaffTimetablePage />} />
       <Route path="/announcements" element={<StaffAnnouncementsPage />} />
-      <Route path="/attendance" element={<StaffAttendancePage />} />
       <Route path="/profile" element={<StaffProfilePage />} />
       
       {/* Catch-all redirect */}

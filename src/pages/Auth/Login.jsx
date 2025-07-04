@@ -24,25 +24,25 @@ const Login = () => {
       // Redirect to appropriate dashboard based on role
       switch (profile.role) {
         case 'student':
-          navigate('/dashboard/student');
+          navigate('/public-site/student');
           break;
         case 'family':
-          navigate('/dashboard/family');
+          navigate('/public-site/family');
           break;
         case 'teacher':
-          navigate('/dashboard/teacher');
+          navigate('/staff-site/teacher');
           break;
         case 'registrar':
-          navigate('/dashboard/registrar');
+          navigate('/staff-site/registrar');
           break;
         case 'admin':
-          navigate('/dashboard/admin');
+          navigate('/staff-site/admin');
           break;
         case 'director':
-          navigate('/dashboard/director');
+          navigate('/staff-site/director');
           break;
         default:
-          navigate('/');
+          navigate('/public-site');
       }
     }
   }, [user, profile, navigate]);
@@ -74,7 +74,7 @@ const Login = () => {
       <div className="w-full max-w-md">
         {/* School Logo & Name */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center space-x-3 text-white hover:text-blue-200 transition-colors">
+          <Link to="/public-site" className="inline-flex items-center space-x-3 text-white hover:text-blue-200 transition-colors">
             <div className="bg-white p-3 rounded-full">
               <GraduationCap className="h-8 w-8 text-[#0056b3]" />
             </div>
@@ -192,7 +192,7 @@ const Login = () => {
         {/* Back to Website */}
         <div className="text-center mt-6">
           <Link 
-            to="/" 
+            to="/public-site" 
             className="text-white hover:text-blue-200 transition-colors text-sm"
           >
             ← Back to School Website
