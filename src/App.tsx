@@ -20,6 +20,13 @@ import RegistrarDashboard from "./pages/Dashboard/RegistrarDashboard";
 import AdminDashboard from "./pages/Dashboard/AdminDashboard";
 import DirectorDashboard from "./pages/Dashboard/DirectorDashboard";
 
+// Shared dashboard pages
+import GradesPage from "./pages/Dashboard/GradesPage";
+import TimetablePage from "./pages/Dashboard/TimetablePage";
+import AnnouncementsPage from "./pages/Dashboard/AnnouncementsPage";
+import AttendancePage from "./pages/Dashboard/AttendancePage";
+import ProfilePage from "./pages/Dashboard/ProfilePage";
+
 // Public site pages
 import About from "./pages/PublicSite/About";
 import News from "./pages/PublicSite/News";
@@ -94,6 +101,48 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={['director']}>
                   <DirectorDashboard />
+                </ProtectedRoute>
+              } 
+            />
+
+            {/* Shared Dashboard Feature Routes */}
+            <Route 
+              path="/grades" 
+              element={
+                <ProtectedRoute allowedRoles={['student', 'family', 'teacher', 'registrar', 'admin', 'director']}>
+                  <GradesPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/timetable" 
+              element={
+                <ProtectedRoute allowedRoles={['student', 'family', 'teacher', 'registrar', 'admin', 'director']}>
+                  <TimetablePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/announcements" 
+              element={
+                <ProtectedRoute allowedRoles={['student', 'family', 'teacher', 'registrar', 'admin', 'director']}>
+                  <AnnouncementsPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/attendance" 
+              element={
+                <ProtectedRoute allowedRoles={['student', 'family', 'teacher', 'registrar', 'admin', 'director']}>
+                  <AttendancePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <ProtectedRoute allowedRoles={['student', 'family', 'teacher', 'registrar', 'admin', 'director']}>
+                  <ProfilePage />
                 </ProtectedRoute>
               } 
             />
