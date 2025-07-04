@@ -32,7 +32,7 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
       { 
         icon: LayoutDashboard, 
         label: 'Dashboard', 
-        path: `/dashboard/${profile?.role}` 
+        path: getBaseDashboardPath()
       }
     ];
 
@@ -44,7 +44,7 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
           { icon: Calendar, label: 'Timetable', path: '/timetable' },
           { icon: UserCheck, label: 'Attendance', path: '/attendance' },
           { icon: Bell, label: 'Announcements', path: '/announcements' },
-          { icon: CreditCard, label: 'ID Card', path: '/id-card' },
+          { icon: CreditCard, label: 'Profile', path: '/profile' },
         ];
       case 'family':
         return [
@@ -53,50 +53,67 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
           { icon: BookOpen, label: 'Grades', path: '/grades' },
           { icon: UserCheck, label: 'Attendance', path: '/attendance' },
           { icon: Bell, label: 'Announcements', path: '/announcements' },
+          { icon: CreditCard, label: 'Profile', path: '/profile' },
         ];
       case 'teacher':
         return [
           ...baseItems,
-          { icon: Users, label: 'My Classes', path: '/classes' },
-          { icon: BookOpen, label: 'Grade Management', path: '/grades' },
-          { icon: UserCheck, label: 'Attendance', path: '/attendance' },
-          { icon: ClipboardList, label: 'Assessments', path: '/assessments' },
-          { icon: FileText, label: 'Lesson Plans', path: '/lesson-plans' },
-          { icon: Bell, label: 'Announcements', path: '/announcements' },
+          { icon: Users, label: 'My Classes', path: '/staff/classes' },
+          { icon: BookOpen, label: 'Grade Management', path: '/staff/grades' },
+          { icon: Calendar, label: 'Timetable', path: '/staff/timetable' },
+          { icon: UserCheck, label: 'Attendance', path: '/staff/attendance' },
+          { icon: ClipboardList, label: 'Assessments', path: '/staff/assessments' },
+          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
+          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
         ];
       case 'registrar':
         return [
           ...baseItems,
-          { icon: Users, label: 'Student Management', path: '/students' },
-          { icon: ClipboardList, label: 'Registrations', path: '/registrations' },
-          { icon: BookOpen, label: 'Grade Approval', path: '/grades' },
-          { icon: UserCheck, label: 'Attendance', path: '/attendance' },
-          { icon: Bell, label: 'Announcements', path: '/announcements' },
-          { icon: BarChart3, label: 'Reports', path: '/reports' },
+          { icon: Users, label: 'Student Management', path: '/staff/students' },
+          { icon: ClipboardList, label: 'Registrations', path: '/staff/registrations' },
+          { icon: BookOpen, label: 'Grade Approval', path: '/staff/grades' },
+          { icon: UserCheck, label: 'Attendance', path: '/staff/attendance' },
+          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
+          { icon: BarChart3, label: 'Reports', path: '/staff/reports' },
+          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
         ];
       case 'admin':
         return [
           ...baseItems,
-          { icon: Users, label: 'User Management', path: '/users' },
-          { icon: GraduationCap, label: 'Academic Calendar', path: '/calendar' },
-          { icon: BookOpen, label: 'Course Management', path: '/courses' },
-          { icon: ClipboardList, label: 'Assignments', path: '/assignments' },
-          { icon: BarChart3, label: 'Reports', path: '/reports' },
-          { icon: Bell, label: 'Announcements', path: '/announcements' },
-          { icon: Settings, label: 'Settings', path: '/settings' },
+          { icon: Users, label: 'User Management', path: '/staff/users' },
+          { icon: GraduationCap, label: 'Academic Calendar', path: '/staff/calendar' },
+          { icon: BookOpen, label: 'Course Management', path: '/staff/courses' },
+          { icon: ClipboardList, label: 'Assignments', path: '/staff/assignments' },
+          { icon: BarChart3, label: 'Reports', path: '/staff/reports' },
+          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
+          { icon: Settings, label: 'Settings', path: '/staff/settings' },
+          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
         ];
       case 'director':
         return [
           ...baseItems,
-          { icon: BarChart3, label: 'Analytics', path: '/analytics' },
-          { icon: Users, label: 'Staff Overview', path: '/staff' },
-          { icon: GraduationCap, label: 'Academic Performance', path: '/performance' },
-          { icon: FileText, label: 'Reports', path: '/reports' },
-          { icon: Bell, label: 'Announcements', path: '/announcements' },
-          { icon: Settings, label: 'System Settings', path: '/settings' },
+          { icon: BarChart3, label: 'Analytics', path: '/staff/analytics' },
+          { icon: Users, label: 'Staff Overview', path: '/staff/staff' },
+          { icon: GraduationCap, label: 'Academic Performance', path: '/staff/performance' },
+          { icon: FileText, label: 'Reports', path: '/staff/reports' },
+          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
+          { icon: Settings, label: 'System Settings', path: '/staff/settings' },
+          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
         ];
       default:
         return baseItems;
+    }
+  };
+
+  const getBaseDashboardPath = () => {
+    switch (profile?.role) {
+      case 'student': return '/portal/student';
+      case 'family': return '/portal/family';
+      case 'teacher': return '/staff/teacher';
+      case 'registrar': return '/staff/registrar';
+      case 'admin': return '/staff/admin';
+      case 'director': return '/staff/director';
+      default: return '/';
     }
   };
 
@@ -125,7 +142,9 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <div className="ml-3">
-              <h1 className="text-lg font-bold text-blue-900">SMS</h1>
+              <h1 className="text-lg font-bold text-blue-900">
+                {['student', 'family'].includes(profile?.role || '') ? 'Student Portal' : 'Staff Portal'}
+              </h1>
               <p className="text-xs text-gray-500 capitalize">{profile?.role}</p>
             </div>
           </div>
