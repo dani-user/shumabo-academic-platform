@@ -1,137 +1,79 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { GraduationCap, Users, BookOpen, Calendar, Award, Shield } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import Header from "@/components/PublicSite/Header";
+import Footer from "@/components/PublicSite/Footer";
+import { GraduationCap, Users, BookOpen, Award, ArrowRight, Building, UserCog } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center">
-              <GraduationCap className="h-8 w-8 text-blue-600 mr-3" />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">School Management System</h1>
-                <p className="text-sm text-gray-500">Excellence in Education</p>
-              </div>
-            </div>
-            <div className="flex space-x-4">
-              <Link to="/about">
-                <Button variant="outline">About</Button>
-              </Link>
-              <Link to="/contact">
-                <Button variant="outline">Contact</Button>
-              </Link>
-              <Link to="/login">
-                <Button>Login</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <Header />
+      
       {/* Hero Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Welcome to Our School
+      <section className="container mx-auto px-4 py-16 text-center">
+        <div className="max-w-4xl mx-auto">
+          <Badge variant="secondary" className="mb-4 bg-blue-100 text-blue-800">
+            Welcome to Lovable Senior Secondary School
+          </Badge>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            Excellence in <span className="text-blue-600">Education</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Empowering students, supporting families, and enabling educators through innovative 
-            technology and comprehensive educational management solutions.
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Empowering students to achieve their highest potential through quality education, 
+            innovative teaching methods, and comprehensive support systems.
           </p>
-          <div className="flex justify-center space-x-4">
-            <Link to="/login">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                Access Portal
-              </Button>
-            </Link>
-            <Link to="/about">
-              <Button size="lg" variant="outline">
-                Learn More
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Portal Access Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Portal Access</h2>
-            <p className="text-lg text-gray-600">
-              Choose your portal to access personalized features and information
-            </p>
-          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Student & Family Portal */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-blue-100">
-              <CardHeader className="text-center pb-4">
-                <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+          {/* Portal Access Cards */}
+          <div className="grid md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
+            <Card className="hover:shadow-lg transition-shadow border-2 hover:border-blue-200">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="h-8 w-8 text-blue-600" />
                 </div>
-                <CardTitle className="text-2xl text-blue-900">Student & Family Portal</CardTitle>
+                <CardTitle className="text-2xl text-blue-900">Public Site</CardTitle>
                 <CardDescription className="text-gray-600">
-                  Access grades, attendance, schedules, and announcements
+                  Student & Family Portal - Access grades, attendance, and school information
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <BookOpen className="h-4 w-4 mr-2 text-blue-500" />
-                    View grades and academic progress
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Calendar className="h-4 w-4 mr-2 text-blue-500" />
-                    Check class schedules and timetables
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Award className="h-4 w-4 mr-2 text-blue-500" />
-                    Track attendance records
-                  </div>
+              <CardContent className="text-center space-y-4">
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  <Badge variant="outline">Students</Badge>
+                  <Badge variant="outline">Families</Badge>
+                  <Badge variant="outline">Public Info</Badge>
                 </div>
-                <Link to="/login" className="block">
+                <Link to="/public-site">
                   <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                    Student/Family Login
+                    Access Public Site
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
-            {/* Staff Portal */}
-            <Card className="hover:shadow-lg transition-shadow border-2 border-green-100">
-              <CardHeader className="text-center pb-4">
-                <div className="bg-green-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                  <Shield className="h-8 w-8 text-green-600" />
+            <Card className="hover:shadow-lg transition-shadow border-2 hover:border-green-200">
+              <CardHeader className="text-center">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <UserCog className="h-8 w-8 text-green-600" />
                 </div>
-                <CardTitle className="text-2xl text-green-900">Staff Portal</CardTitle>
+                <CardTitle className="text-2xl text-green-900">Staff Site</CardTitle>
                 <CardDescription className="text-gray-600">
-                  Manage classes, grades, attendance, and administrative tasks
+                  Staff Portal - Administrative tools and management systems
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3 mb-6">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Users className="h-4 w-4 mr-2 text-green-500" />
-                    Manage student information
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <BookOpen className="h-4 w-4 mr-2 text-green-500" />
-                    Input and manage grades
-                  </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Calendar className="h-4 w-4 mr-2 text-green-500" />
-                    Administrative functions
-                  </div>
+              <CardContent className="text-center space-y-4">
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  <Badge variant="outline">Teachers</Badge>
+                  <Badge variant="outline">Admin</Badge>
+                  <Badge variant="outline">Registrar</Badge>
+                  <Badge variant="outline">Director</Badge>
                 </div>
-                <Link to="/login" className="block">
+                <Link to="/staff-site">
                   <Button className="w-full bg-green-600 hover:bg-green-700">
-                    Staff Login
+                    Access Staff Site
+                    <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </CardContent>
@@ -141,97 +83,84 @@ const Index = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Our System?</h2>
-            <p className="text-lg text-gray-600">
-              Comprehensive features designed for modern educational needs
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-blue-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <BookOpen className="h-8 w-8 text-blue-600" />
+      <section className="container mx-auto px-4 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Why Choose LSSS?</h2>
+          <p className="text-xl text-gray-600">
+            Comprehensive education platform with modern tools and dedicated support
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <Card className="text-center hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <GraduationCap className="h-6 w-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Academic Excellence</h3>
+              <CardTitle>Quality Education</CardTitle>
+            </CardHeader>
+            <CardContent>
               <p className="text-gray-600">
-                Comprehensive grade management and academic tracking for continuous improvement.
+                Experienced faculty delivering comprehensive curriculum with modern teaching methodologies
               </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-green-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Users className="h-8 w-8 text-green-600" />
+            </CardContent>
+          </Card>
+
+          <Card className="text-center hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <BookOpen className="h-6 w-6 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Family Engagement</h3>
+              <CardTitle>Digital Learning</CardTitle>
+            </CardHeader>
+            <CardContent>
               <p className="text-gray-600">
-                Keep families connected with real-time updates on student progress and school activities.
+                Modern digital platform for seamless learning, grade tracking, and communication
               </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-purple-100 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Shield className="h-8 w-8 text-purple-600" />
+            </CardContent>
+          </Card>
+
+          <Card className="text-center hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <Award className="h-6 w-6 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Secure & Reliable</h3>
+              <CardTitle>Excellence</CardTitle>
+            </CardHeader>
+            <CardContent>
               <p className="text-gray-600">
-                Advanced security measures ensure your data is protected and accessible only to authorized users.
+                Proven track record of academic excellence and student success in higher education
               </p>
-            </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Quick Access Section */}
+      <section className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">Quick Access</h2>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/public-site/about">
+              <Button variant="outline" className="hover:bg-blue-50">About Us</Button>
+            </Link>
+            <Link to="/public-site/academic-policy">
+              <Button variant="outline" className="hover:bg-blue-50">Academic Policy</Button>
+            </Link>
+            <Link to="/public-site/news">
+              <Button variant="outline" className="hover:bg-blue-50">News & Events</Button>
+            </Link>
+            <Link to="/public-site/contact">
+              <Button variant="outline" className="hover:bg-blue-50">Contact Us</Button>
+            </Link>
+            <Link to="/login">
+              <Button className="bg-blue-600 hover:bg-blue-700">Login</Button>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center mb-4">
-                <GraduationCap className="h-6 w-6 text-blue-400 mr-2" />
-                <span className="text-lg font-semibold">SMS</span>
-              </div>
-              <p className="text-gray-400">
-                Empowering education through innovative technology solutions.
-              </p>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li><Link to="/about" className="text-gray-400 hover:text-white">About Us</Link></li>
-                <li><Link to="/news" className="text-gray-400 hover:text-white">News</Link></li>
-                <li><Link to="/academic-policy" className="text-gray-400 hover:text-white">Academic Policy</Link></li>
-                <li><Link to="/contact" className="text-gray-400 hover:text-white">Contact</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Portals</h3>
-              <ul className="space-y-2">
-                <li><Link to="/login" className="text-gray-400 hover:text-white">Student Portal</Link></li>
-                <li><Link to="/login" className="text-gray-400 hover:text-white">Family Portal</Link></li>
-                <li><Link to="/login" className="text-gray-400 hover:text-white">Staff Portal</Link></li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
-              <div className="space-y-2 text-gray-400">
-                <p>Email: info@school.edu.et</p>
-                <p>Phone: +251-11-123-4567</p>
-                <p>Address: Addis Ababa, Ethiopia</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 School Management System. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

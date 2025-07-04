@@ -40,65 +40,65 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
       case 'student':
         return [
           ...baseItems,
-          { icon: BookOpen, label: 'My Grades', path: '/grades' },
-          { icon: Calendar, label: 'Timetable', path: '/timetable' },
-          { icon: UserCheck, label: 'Attendance', path: '/attendance' },
-          { icon: Bell, label: 'Announcements', path: '/announcements' },
-          { icon: CreditCard, label: 'Profile', path: '/profile' },
+          { icon: BookOpen, label: 'My Grades', path: '/public-site/grades' },
+          { icon: Calendar, label: 'Timetable', path: '/public-site/timetable' },
+          { icon: UserCheck, label: 'Attendance', path: '/public-site/attendance' },
+          { icon: Bell, label: 'Announcements', path: '/public-site/announcements' },
+          { icon: CreditCard, label: 'Profile', path: '/public-site/profile' },
         ];
       case 'family':
         return [
           ...baseItems,
-          { icon: Users, label: 'My Children', path: '/children' },
-          { icon: BookOpen, label: 'Grades', path: '/grades' },
-          { icon: UserCheck, label: 'Attendance', path: '/attendance' },
-          { icon: Bell, label: 'Announcements', path: '/announcements' },
-          { icon: CreditCard, label: 'Profile', path: '/profile' },
+          { icon: Users, label: 'My Children', path: '/public-site/children' },
+          { icon: BookOpen, label: 'Grades', path: '/public-site/grades' },
+          { icon: UserCheck, label: 'Attendance', path: '/public-site/attendance' },
+          { icon: Bell, label: 'Announcements', path: '/public-site/announcements' },
+          { icon: CreditCard, label: 'Profile', path: '/public-site/profile' },
         ];
       case 'teacher':
         return [
           ...baseItems,
-          { icon: Users, label: 'My Classes', path: '/staff/classes' },
-          { icon: BookOpen, label: 'Grade Management', path: '/staff/grades' },
-          { icon: Calendar, label: 'Timetable', path: '/staff/timetable' },
-          { icon: UserCheck, label: 'Attendance', path: '/staff/attendance' },
-          { icon: ClipboardList, label: 'Assessments', path: '/staff/assessments' },
-          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
-          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
+          { icon: Users, label: 'My Classes', path: '/staff-site/classes' },
+          { icon: BookOpen, label: 'Grade Management', path: '/staff-site/grades' },
+          { icon: Calendar, label: 'Timetable', path: '/staff-site/timetable' },
+          { icon: UserCheck, label: 'Attendance', path: '/staff-site/attendance' },
+          { icon: ClipboardList, label: 'Assessments', path: '/staff-site/assessments' },
+          { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
+          { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
         ];
       case 'registrar':
         return [
           ...baseItems,
-          { icon: Users, label: 'Student Management', path: '/staff/students' },
-          { icon: ClipboardList, label: 'Registrations', path: '/staff/registrations' },
-          { icon: BookOpen, label: 'Grade Approval', path: '/staff/grades' },
-          { icon: UserCheck, label: 'Attendance', path: '/staff/attendance' },
-          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
-          { icon: BarChart3, label: 'Reports', path: '/staff/reports' },
-          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
+          { icon: Users, label: 'Student Management', path: '/staff-site/students' },
+          { icon: ClipboardList, label: 'Registrations', path: '/staff-site/registrations' },
+          { icon: BookOpen, label: 'Grade Approval', path: '/staff-site/grades' },
+          { icon: UserCheck, label: 'Attendance', path: '/staff-site/attendance' },
+          { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
+          { icon: BarChart3, label: 'Reports', path: '/staff-site/reports' },
+          { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
         ];
       case 'admin':
         return [
           ...baseItems,
-          { icon: Users, label: 'User Management', path: '/staff/users' },
-          { icon: GraduationCap, label: 'Academic Calendar', path: '/staff/calendar' },
-          { icon: BookOpen, label: 'Course Management', path: '/staff/courses' },
-          { icon: ClipboardList, label: 'Assignments', path: '/staff/assignments' },
-          { icon: BarChart3, label: 'Reports', path: '/staff/reports' },
-          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
-          { icon: Settings, label: 'Settings', path: '/staff/settings' },
-          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
+          { icon: Users, label: 'User Management', path: '/staff-site/users' },
+          { icon: GraduationCap, label: 'Academic Calendar', path: '/staff-site/calendar' },
+          { icon: BookOpen, label: 'Course Management', path: '/staff-site/courses' },
+          { icon: ClipboardList, label: 'Assignments', path: '/staff-site/assignments' },
+          { icon: BarChart3, label: 'Reports', path: '/staff-site/reports' },
+          { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
+          { icon: Settings, label: 'Settings', path: '/staff-site/settings' },
+          { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
         ];
       case 'director':
         return [
           ...baseItems,
-          { icon: BarChart3, label: 'Analytics', path: '/staff/analytics' },
-          { icon: Users, label: 'Staff Overview', path: '/staff/staff' },
-          { icon: GraduationCap, label: 'Academic Performance', path: '/staff/performance' },
-          { icon: FileText, label: 'Reports', path: '/staff/reports' },
-          { icon: Bell, label: 'Announcements', path: '/staff/announcements' },
-          { icon: Settings, label: 'System Settings', path: '/staff/settings' },
-          { icon: CreditCard, label: 'Profile', path: '/staff/profile' },
+          { icon: BarChart3, label: 'Analytics', path: '/staff-site/analytics' },
+          { icon: Users, label: 'Staff Overview', path: '/staff-site/staff' },
+          { icon: GraduationCap, label: 'Academic Performance', path: '/staff-site/performance' },
+          { icon: FileText, label: 'Reports', path: '/staff-site/reports' },
+          { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
+          { icon: Settings, label: 'System Settings', path: '/staff-site/settings' },
+          { icon: CreditCard, label: 'Profile', path: '/staff-site/profile' },
         ];
       default:
         return baseItems;
@@ -107,13 +107,13 @@ const DashboardSidebar = ({ isOpen, onClose }: SidebarProps) => {
 
   const getBaseDashboardPath = () => {
     switch (profile?.role) {
-      case 'student': return '/portal/student';
-      case 'family': return '/portal/family';
-      case 'teacher': return '/staff/teacher';
-      case 'registrar': return '/staff/registrar';
-      case 'admin': return '/staff/admin';
-      case 'director': return '/staff/director';
-      default: return '/';
+      case 'student': return '/public-site/student';
+      case 'family': return '/public-site/family';
+      case 'teacher': return '/staff-site/teacher';
+      case 'registrar': return '/staff-site/registrar';
+      case 'admin': return '/staff-site/admin';
+      case 'director': return '/staff-site/director';
+      default: return '/public-site';
     }
   };
 
