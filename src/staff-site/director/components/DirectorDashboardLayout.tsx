@@ -1,23 +1,23 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/backend/auth/AuthContext';
-import FamilySidebar from './FamilySidebar';
+import DirectorSidebar from './DirectorSidebar';
 import { Button } from '@/components/ui/button';
 import { Menu, Bell } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
-interface FamilyDashboardLayoutProps {
+interface DirectorDashboardLayoutProps {
   children: React.ReactNode;
   title?: string;
 }
 
-const FamilyDashboardLayout = ({ children, title }: FamilyDashboardLayoutProps) => {
+const DirectorDashboardLayout = ({ children, title }: DirectorDashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { profile } = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <FamilySidebar 
+      <DirectorSidebar 
         isOpen={sidebarOpen} 
         onClose={() => setSidebarOpen(false)} 
       />
@@ -37,7 +37,7 @@ const FamilyDashboardLayout = ({ children, title }: FamilyDashboardLayoutProps) 
                   <Menu className="h-6 w-6" />
                 </Button>
                 <h1 className="ml-4 lg:ml-0 text-xl font-semibold text-gray-900">
-                  {title || 'Family Dashboard'}
+                  {title || 'Director Dashboard'}
                 </h1>
               </div>
 
@@ -45,7 +45,7 @@ const FamilyDashboardLayout = ({ children, title }: FamilyDashboardLayoutProps) 
                 <Button variant="ghost" size="sm" className="relative">
                   <Bell className="h-5 w-5" />
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                    4
+                    5
                   </Badge>
                 </Button>
                 
@@ -58,8 +58,8 @@ const FamilyDashboardLayout = ({ children, title }: FamilyDashboardLayoutProps) 
                       {profile?.role}
                     </p>
                   </div>
-                  <div className="bg-pink-100 p-2 rounded-full">
-                    <span className="text-pink-900 font-semibold text-sm">
+                  <div className="bg-purple-100 p-2 rounded-full">
+                    <span className="text-purple-900 font-semibold text-sm">
                       {profile?.fname?.[0]}{profile?.lname?.[0]}
                     </span>
                   </div>
@@ -78,4 +78,4 @@ const FamilyDashboardLayout = ({ children, title }: FamilyDashboardLayoutProps) 
   );
 };
 
-export default FamilyDashboardLayout;
+export default DirectorDashboardLayout;

@@ -5,30 +5,34 @@ import { useAuth } from '@/backend/auth/AuthContext';
 import { Button } from '@/components/ui/button';
 import { 
   LayoutDashboard, 
-  BookOpen, 
+  FileText, 
+  TrendingUp, 
   Calendar, 
-  UserCheck, 
+  Users,
   Bell, 
+  Settings,
   User,
   LogOut,
-  GraduationCap
+  Building
 } from 'lucide-react';
 
-interface StudentSidebarProps {
+interface DirectorSidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const StudentSidebar = ({ isOpen, onClose }: StudentSidebarProps) => {
+const DirectorSidebar = ({ isOpen, onClose }: DirectorSidebarProps) => {
   const { profile, signOut } = useAuth();
 
   const navigationItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/public-site/student' },
-    { icon: BookOpen, label: 'My Grades', path: '/public-site/grades' },
-    { icon: Calendar, label: 'Timetable', path: '/public-site/timetable' },
-    { icon: UserCheck, label: 'Attendance', path: '/public-site/attendance' },
-    { icon: Bell, label: 'Announcements', path: '/public-site/announcements' },
-    { icon: User, label: 'Profile', path: '/public-site/profile' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/staff-site/director' },
+    { icon: FileText, label: 'View Reports', path: '/staff-site/view-reports' },
+    { icon: TrendingUp, label: 'Performance Analytics', path: '/staff-site/performance-analytics' },
+    { icon: Calendar, label: 'Strategic Planning', path: '/staff-site/strategic-planning' },
+    { icon: Users, label: 'Faculty Management', path: '/staff-site/faculty-management' },
+    { icon: Bell, label: 'Announcements', path: '/staff-site/announcements' },
+    { icon: Settings, label: 'System Settings', path: '/staff-site/settings' },
+    { icon: User, label: 'Profile', path: '/staff-site/profile' },
   ];
 
   return (
@@ -50,20 +54,20 @@ const StudentSidebar = ({ isOpen, onClose }: StudentSidebarProps) => {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center px-6 py-4 border-b border-gray-200">
-            <div className="bg-blue-900 p-2 rounded-lg">
-              <GraduationCap className="h-6 w-6 text-white" />
+            <div className="bg-purple-600 p-2 rounded-lg">
+              <Building className="h-6 w-6 text-white" />
             </div>
             <div className="ml-3">
-              <h1 className="text-lg font-bold text-blue-900">Student Portal</h1>
-              <p className="text-xs text-gray-500">Learning Management</p>
+              <h1 className="text-lg font-bold text-purple-800">Director Portal</h1>
+              <p className="text-xs text-gray-500">Executive Management</p>
             </div>
           </div>
 
           {/* User Info */}
           <div className="px-6 py-4 border-b border-gray-100">
             <div className="flex items-center">
-              <div className="bg-blue-100 p-2 rounded-full">
-                <span className="text-blue-900 font-semibold">
+              <div className="bg-purple-100 p-2 rounded-full">
+                <span className="text-purple-900 font-semibold">
                   {profile?.fname?.[0]}{profile?.lname?.[0]}
                 </span>
               </div>
@@ -85,7 +89,7 @@ const StudentSidebar = ({ isOpen, onClose }: StudentSidebarProps) => {
                 className={({ isActive }) =>
                   `flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-blue-100 text-blue-900'
+                      ? 'bg-purple-100 text-purple-900'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                   }`
                 }
@@ -114,4 +118,4 @@ const StudentSidebar = ({ isOpen, onClose }: StudentSidebarProps) => {
   );
 };
 
-export default StudentSidebar;
+export default DirectorSidebar;

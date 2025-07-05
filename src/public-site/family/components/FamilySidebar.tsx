@@ -7,11 +7,11 @@ import {
   LayoutDashboard, 
   Users, 
   BookOpen, 
-  UserCheck,
+  UserCheck, 
   Bell, 
   User,
   LogOut,
-  Home
+  Heart
 } from 'lucide-react';
 
 interface FamilySidebarProps {
@@ -24,11 +24,11 @@ const FamilySidebar = ({ isOpen, onClose }: FamilySidebarProps) => {
 
   const navigationItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/public-site/family' },
-    { icon: Users, label: 'My Children', path: '/public-site/family/children' },
-    { icon: BookOpen, label: 'Grades', path: '/public-site/family/grades' },
-    { icon: UserCheck, label: 'Attendance', path: '/public-site/family/attendance' },
-    { icon: Bell, label: 'Announcements', path: '/public-site/family/announcements' },
-    { icon: User, label: 'Profile', path: '/public-site/family/profile' },
+    { icon: Users, label: 'My Children', path: '/public-site/children' },
+    { icon: BookOpen, label: 'Grades', path: '/public-site/grades' },
+    { icon: UserCheck, label: 'Attendance', path: '/public-site/attendance' },
+    { icon: Bell, label: 'Announcements', path: '/public-site/announcements' },
+    { icon: User, label: 'Profile', path: '/public-site/profile' },
   ];
 
   return (
@@ -50,20 +50,20 @@ const FamilySidebar = ({ isOpen, onClose }: FamilySidebarProps) => {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center px-6 py-4 border-b border-gray-200">
-            <div className="bg-green-600 p-2 rounded-lg">
-              <Home className="h-6 w-6 text-white" />
+            <div className="bg-pink-600 p-2 rounded-lg">
+              <Heart className="h-6 w-6 text-white" />
             </div>
             <div className="ml-3">
-              <h1 className="text-lg font-bold text-green-800">Family Portal</h1>
-              <p className="text-xs text-gray-500">Parent Dashboard</p>
+              <h1 className="text-lg font-bold text-pink-800">Family Portal</h1>
+              <p className="text-xs text-gray-500">Parent Management</p>
             </div>
           </div>
 
           {/* User Info */}
           <div className="px-6 py-4 border-b border-gray-100">
             <div className="flex items-center">
-              <div className="bg-green-100 p-2 rounded-full">
-                <span className="text-green-900 font-semibold">
+              <div className="bg-pink-100 p-2 rounded-full">
+                <span className="text-pink-900 font-semibold">
                   {profile?.fname?.[0]}{profile?.lname?.[0]}
                 </span>
               </div>
@@ -85,7 +85,7 @@ const FamilySidebar = ({ isOpen, onClose }: FamilySidebarProps) => {
                 className={({ isActive }) =>
                   `flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                     isActive
-                      ? 'bg-green-100 text-green-900'
+                      ? 'bg-pink-100 text-pink-900'
                       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
                   }`
                 }
