@@ -9,7 +9,13 @@ const DashboardHeader = () => {
 
   const handleLogout = async () => {
     console.log('Logout button clicked');
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Fallback: force redirect even if signOut fails
+      window.location.href = '/login';
+    }
   };
 
   return (

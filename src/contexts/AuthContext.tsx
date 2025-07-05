@@ -173,7 +173,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     try {
-      // Clear all state
+      console.log('Starting logout process...');
+      
+      // Clear all state immediately
       setUser(null);
       setProfile(null);
       setSession(null);
@@ -181,14 +183,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // Clear localStorage
       localStorage.removeItem('school_user');
       
+      console.log('State cleared, showing success message...');
+      
       // Show success message
       toast({
         title: "Logged Out",
         description: "You have been successfully logged out.",
       });
 
-      // Force redirect to login page
-      window.location.href = '/login';
+      console.log('Redirecting to login page...');
+      
+      // Use setTimeout to ensure state updates are processed before redirect
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 100);
+      
     } catch (error) {
       console.error('Logout error:', error);
       // Even if there's an error, clear the state and redirect
@@ -196,7 +205,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setProfile(null);
       setSession(null);
       localStorage.removeItem('school_user');
-      window.location.href = '/login';
+      
+      toast({
+        title: "Logged Out",
+        description: "You have been logged out.",
+        variant: "default",
+      });
+      
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 100);
     }
   };
 
