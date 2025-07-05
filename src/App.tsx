@@ -4,14 +4,14 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/backend/auth/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 // Public Site App
-import PublicSiteApp from "./apps/PublicSiteApp";
+import PublicSiteApp from "./public-site/PublicSiteApp";
 
 // Staff Site App
-import StaffSiteApp from "./apps/StaffSiteApp";
+import StaffSiteApp from "./staff-site/StaffSiteApp";
 
 // Auth and Error pages
 import Auth from "./pages/Auth/Auth";
